@@ -17,7 +17,7 @@ function App() {
         <SignOut />
       </header>
       <section>
-        <SignIn />
+        {user ? <ChatRoom /> : <SignIn />}
       </section>
     </div>
   );
