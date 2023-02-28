@@ -59,10 +59,11 @@ function ChatRoom () {
 }
 
 function ChatMessage(props) {
-  const { text, uid } = props.message;
+  const { text, uid, photoUrl } = props.message;
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
   return (
     <div className={ `message ${messageClass}` }>
+      <img src={photoUrl} alt="photo" />
       <p>{text}</p>
     </div>
   )
