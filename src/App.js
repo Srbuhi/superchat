@@ -1,10 +1,10 @@
-
+import React from 'react';
 import './App.css';
 import { firestore, auth }   from './config.js';
 
 import { useAuthState }      from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { collection, orderBy, query, limit } from 'firebase/firestore';
 
 
@@ -58,4 +58,12 @@ function ChatRoom () {
   )
 }
 
+function ChatMessage(props) {
+  const { text, uid } = props.message;
+
+  return (
+    <p>{text}</p>
+  )
+  
+}
 export default App;
