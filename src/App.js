@@ -5,7 +5,7 @@ import { firestore, auth }   from './config.js';
 import { useAuthState }      from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { collection, orderBy, query, limit } from 'firebase/firestore';
+import { collection, orderBy, query, limit, documentId } from 'firebase/firestore';
 
 
 function App() {
@@ -60,9 +60,11 @@ function ChatRoom () {
 
 function ChatMessage(props) {
   const { text, uid } = props.message;
-
+  const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
   return (
-    <p>{text}</p>
+    <div className={ `message ${messageClass}` }>
+      <p>{text}</p>
+    </div>
   )
   
 }
