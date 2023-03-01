@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { firestore, auth }   from './config.js';
 
@@ -6,6 +6,7 @@ import { useAuthState }      from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { collection, orderBy, query, limit, documentId } from 'firebase/firestore';
+import { async } from '@firebase/util';
 
 
 function App() {
@@ -55,6 +56,11 @@ function ChatRoom () {
       <div>
         {messages && messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
       </div>
+
+      <form onSubmit={sendMessage}>
+        <input type="text" value={formValue} onChange={(e) => setFormValue(e.target.value)}/>
+        <button type='submit'>🕊️</button>
+      </form>
     </>
   )
 }
