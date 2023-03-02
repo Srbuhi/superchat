@@ -5,7 +5,7 @@ import { firestore, auth }   from './config.js';
 import { useAuthState }      from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { collection, orderBy, query, limit, documentId } from 'firebase/firestore';
+import { collection, orderBy, query, limit, documentId, addDoc, serverTimestamp } from 'firebase/firestore';
 import { async } from '@firebase/util';
 
 
@@ -50,6 +50,23 @@ function ChatRoom () {
   const messageRef = collection(firestore , "messages");
   const myquery = query(messageRef, orderBy("createdAt"), limit(25));
   const [messages] = useCollectionData(myquery, {idField: 'id'})
+
+  const [formValue, setFormValue] = useState('');
+
+  const sendMessage = async (e) => {
+
+    e.preventDefault();
+    const{uid, photoURL} = auth.currentUser;
+  console.log(auth.currentUser);
+    await addDoc(messageRef, {
+      text: formValue,
+      createdAt: serverTimestamp(),
+      uid,
+      photoURL
+    })
+      setFormValue('');
+
+  }
 
   return (
     <>
