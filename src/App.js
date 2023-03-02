@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './App.css';
 import { firestore, auth }   from './config.js';
 
@@ -47,6 +47,8 @@ function SignOut () {
 
 //Component ChatRoom
 function ChatRoom () {
+  const dummy = useRef();
+
   const messageRef = collection(firestore , "messages");
   const myquery = query(messageRef, orderBy("createdAt"), limit(25));
   const [messages] = useCollectionData(myquery, {idField: 'id'})
@@ -57,7 +59,7 @@ function ChatRoom () {
 
     e.preventDefault();
     const{uid, photoURL} = auth.currentUser;
-  console.log(auth.currentUser);
+   //console.log(auth.currentUser);
     await addDoc(messageRef, {
       text: formValue,
       createdAt: serverTimestamp(),
@@ -66,12 +68,14 @@ function ChatRoom () {
     })
       setFormValue('');
 
+      dummy.current.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
     <>
       <main>
         {messages && messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+        <div ref={dummy}></div>
       </main>
 
       <form onSubmit={sendMessage}>
